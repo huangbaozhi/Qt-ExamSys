@@ -12,7 +12,7 @@ LoginDialog::LoginDialog(QWidget *parent)
     , ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
-
+    this->setFixedSize(width(),height());
     this->setWindowTitle("驾校科目一考试登录");
     this->setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 
