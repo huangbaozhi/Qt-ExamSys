@@ -20,6 +20,7 @@ public:
     void initLayout();      // 初始化布局管理器
     bool initTextEdit();    // 初始化文本编辑器
     void initButtons();     // 初始化按钮及标签
+    bool hasNoSelect();     // 判断题目是否有未完成的
 private:
     QTimer *m_timer;        // 计时器
     int m_timerGo;          // 考试已用时
@@ -34,7 +35,8 @@ private:
     QGridLayout *m_layout;          // 布局管理器
     QStringList m_answerList;       // 答案的链表
 private slots:
-    void freshTime();
+    void freshTime();               // 刷新考试时间
+    void getScore();                // 获取考试成绩
 };
 
 #endif // EXAMDIALOG_H

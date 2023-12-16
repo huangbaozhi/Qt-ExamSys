@@ -149,7 +149,35 @@ void ExamDialog::initButtons()
     QPushButton *submitBtn = new QPushButton(this);
     submitBtn->setText("提交");
     submitBtn->setFixedSize(100,35);
+    connect(submitBtn,SIGNAL(clicked(bool)),this,SLOT(getScore()));
     m_layout->addWidget(submitBtn,6,9);
+}
+
+bool ExamDialog::hasNoSelect()
+{
+    int radioSelects = 0;
+    for(int i = 0; i < 8; i++){
+        if(m_btnGroups[i]->checkedButton())
+            radioSelects++;
+    }
+
+    if(radioSelects != 8)
+        return true;
+
+    int checkSelects = 0;
+    for(int i = 0; i < 4; i++)
+    {
+        if(m_checkBtns[i]->isChecked())
+            checkSelects++;
+    }
+
+    if(checkSelects == 0 || checkSelects == 1)
+        return true;
+
+    if(!m_radioA->isChecked() && m_radioB->isChecked())
+        return true;
+
+    return false;
 }
 
 void ExamDialog::freshTime()
@@ -159,4 +187,61 @@ void ExamDialog::freshTime()
     QString min = QString::number(m_timerGo / 60);
     QString sec = QString::number(m_timerGo % 60);
     setWindowTitle("考试已用时：" + min + "分" +sec + "秒");
+}
+
+void ExamDialog::getScore()
+{
+    if(hasNoSelect()){
+        QMessageBox::information(this,"提示","您有未完成的题目，请完成考试！","是");
+        return;
+    }
+
+    int scores = 0;
+    for(int i = 0; i < 10; i++)
+    {
+        // 单选题计分
+        if(i < 8)
+            if(m_btnGroups[i]->checkedButton()->text() == m_answerList.at(i))
+                scores += 10;
+
+        // 多项选择题计分
+        if(i == 8){
+            QString answer = m_answerList.at(i);
+            bool hasA = false;
+            bool hasB = false;
+            bool hasC = false;
+            bool hasD = false;
+
+            if(answer.contains("A") ) hasA = true;
+            if(answer.contains("B") ) hasB = true;
+            if(answer.contains("C") ) hasC = true;
+            if(answer.contains("D") ) hasD = true;
+
+            bool checkA = m_checkBtns[0]->checkState();
+            bool checkB = m_checkBtns[1]->checkState();
+            bool checkC = m_checkBtns[2]->checkState();
+            bool checkD = m_checkBtns[3]->checkState();
+
+            if(hasA != checkA) continue;
+            if(hasB != checkB) continue;
+            if(hasC != checkC) continue;
+            if(hasD != checkD) continue;
+
+            scores += 10;
+        }
+
+        // 判断题计分
+        if(i == 9){
+            if(m_btnGroups[8]->checkedButton()->text() == m_answerList.at(i))
+                scores += 10;
+        }
+    }
+
+    QString str = "您的分数是：" + QString::number(scores) + "分，是否重新考试？";
+    int res = QMessageBox::information(this,"提示",str,QMessageBox::Yes | QMessageBox::No);
+    if(res == QMessageBox::Yes)
+        return;
+    else
+        close();
+
 }
