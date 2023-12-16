@@ -24,12 +24,13 @@ ExamDialog::ExamDialog(QWidget* parent) : QDialog(parent)
 
     initTimer();
     initLayout();
-    if(!initTextEdit()){
+    if(!initTextEdit()){ // 初始化文本编辑器
         QMessageBox::information(this,"提示","初始化题库数据文件失败！");
-        QTimer::singleShot(0,qApp,SLOT(quit()));
+        QTimer::singleShot(0,qApp,SLOT(quit()));// 退出应用程序
     }
 
     initButtons();
+    show();// 初始化文本编辑器成功，显示
 }
 
 void ExamDialog::initTimer()
@@ -53,7 +54,8 @@ bool ExamDialog::initTextEdit()
 {
     QString strLine;        // 保存文件中读取到的一行数据
     QStringList strList;    // 保存读取到的答案行
-    QString fileName("/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/exam.txt");
+    //QString fileName("/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/exam.txt");
+    QString fileName("exam.txt");
     QFile file(fileName);
     QTextStream stream(&file);
 

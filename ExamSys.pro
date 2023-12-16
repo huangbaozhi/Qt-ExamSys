@@ -1,6 +1,7 @@
 QT       += core gui
 QT += core5compat
 
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -20,6 +21,8 @@ HEADERS += \
 
 FORMS += \
     logindialog.ui
+
+RC_ICONS += LOGO.ico
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -6,9 +6,18 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    LoginDialog w;
-//    w.show();
-    ExamDialog w;
-    w.show();
-    return a.exec();
+    LoginDialog logDialog;
+    int res = logDialog.exec();// 模态窗口运行
+    if(res == QDialog::Accepted)
+    {
+        //ExamDialog w;
+        //return a.exec();    // 生命周期
+
+        ExamDialog *examDialog;
+        examDialog = new ExamDialog;
+    }else
+    {
+        return 0;
+    }
+    return a.exec();    // 生命周期
 }

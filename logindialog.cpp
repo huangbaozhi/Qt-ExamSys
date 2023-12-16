@@ -53,7 +53,8 @@ void LoginDialog::on_loginBtn_clicked()
         QStringList strList;        // 保存分割读取的一行数据
 
         //filename = "../account.txt";
-        filename = "/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/account.txt";
+        //filename = "/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/account.txt";
+        filename = "account.txt";
         strAccInput = ui->accountEdit->text();
         strCode = ui->codeEdit->text();
 
@@ -72,6 +73,7 @@ void LoginDialog::on_loginBtn_clicked()
                 {
                     QMessageBox::information(this,"提示","欢迎进入科目一考试系统！");
                     file.close();
+                    done(Accepted);// 关闭当前窗体，以指定方式返还
                     return;
                 }else{
                     QMessageBox::information(this,"提示","您输入的密码有误，请重新输入！");
@@ -100,6 +102,6 @@ void LoginDialog::on_loginBtn_clicked()
 
 void LoginDialog::on_cancelBtn_clicked()
 {
-
+    done(Rejected);
 }
 
