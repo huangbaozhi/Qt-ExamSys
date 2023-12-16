@@ -10,9 +10,6 @@ int main(int argc, char *argv[])
     int res = logDialog.exec();// 模态窗口运行
     if(res == QDialog::Accepted)
     {
-        //ExamDialog w;
-        //return a.exec();    // 生命周期
-
         ExamDialog *examDialog;
         examDialog = new ExamDialog;
     }else
