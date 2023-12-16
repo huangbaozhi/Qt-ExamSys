@@ -6,6 +6,7 @@
 #include <QPalette>
 #include <QFont>
 #include <QColor>
+#include <QPushButton>
 
 ExamDialog::ExamDialog(QWidget* parent) : QDialog(parent)
 {
@@ -27,6 +28,8 @@ ExamDialog::ExamDialog(QWidget* parent) : QDialog(parent)
         QMessageBox::information(this,"提示","初始化题库数据文件失败！");
         QTimer::singleShot(0,qApp,SLOT(quit()));
     }
+
+    initButtons();
 }
 
 void ExamDialog::initTimer()
@@ -93,6 +96,60 @@ bool ExamDialog::initTextEdit()
     }else{
         return false;
     }
+}
+
+void ExamDialog::initButtons()
+{
+    QStringList strList = {"A","B","C","D"};
+    for(int i = 0; i < 10; i++)
+    {
+        // 题目标签
+        m_titleLables[i] = new QLabel(this);
+        m_titleLables[i]->setText("第" + QString::number(i+1) + "题");
+        m_layout->addWidget(m_titleLables[i],1,i);
+
+        // 判断题
+        if(i == 9){
+            m_radioA = new QRadioButton(this);
+            m_radioB = new QRadioButton(this);
+
+            m_radioA->setText("正确");
+            m_radioB->setText("错误");
+
+            m_layout->addWidget(m_radioA,2,9);
+            m_layout->addWidget(m_radioB,3,9);
+
+            m_btnGroups[8] = new QButtonGroup(this);
+            m_btnGroups[8]->addButton(m_radioA);
+            m_btnGroups[8]->addButton(m_radioB);
+            break;
+        }
+
+        if(i < 8) m_btnGroups[i] = new QButtonGroup(this);
+
+        // 选择题
+        for(int j = 0; j < 4; j++)
+        {
+            // 多选题
+            if(i == 8){
+                m_checkBtns[j] = new QCheckBox(this);
+                m_checkBtns[j]->setText(strList.at(j));
+                m_layout->addWidget(m_checkBtns[j],2+j,8);
+            }else{
+                // 单项选择题
+                m_radioBtns[4 * i + j] = new QRadioButton(this);
+                m_radioBtns[4 * i + j]->setText(strList.at(j));
+                m_layout->addWidget(m_radioBtns[4 * i + j],2+j,i);
+
+                m_btnGroups[i]->addButton(m_radioBtns[4 * i + j]);
+            }
+        }
+    }
+
+    QPushButton *submitBtn = new QPushButton(this);
+    submitBtn->setText("提交");
+    submitBtn->setFixedSize(100,35);
+    m_layout->addWidget(submitBtn,6,9);
 }
 
 void ExamDialog::freshTime()
