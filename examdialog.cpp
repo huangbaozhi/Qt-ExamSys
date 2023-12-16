@@ -54,7 +54,6 @@ bool ExamDialog::initTextEdit()
 {
     QString strLine;        // 保存文件中读取到的一行数据
     QStringList strList;    // 保存读取到的答案行
-    //QString fileName("/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/exam.txt");
     QString fileName("exam.txt");
     QFile file(fileName);
     QTextStream stream(&file);

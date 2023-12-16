@@ -15,7 +15,6 @@ LoginDialog::LoginDialog(QWidget *parent)
     this->setFixedSize(width(),height());
     this->setWindowTitle("驾校科目一考试登录");
     this->setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
-
 }
 
 LoginDialog::~LoginDialog()
@@ -53,7 +52,6 @@ void LoginDialog::on_loginBtn_clicked()
         QStringList strList;        // 保存分割读取的一行数据
 
         //filename = "../account.txt";
-        //filename = "/Users/huangbaozhi/Desktop/Qtcode/ExamSys/ExamSys/account.txt";
         filename = "account.txt";
         strAccInput = ui->accountEdit->text();
         strCode = ui->codeEdit->text();
